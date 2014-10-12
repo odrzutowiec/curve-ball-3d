@@ -126,19 +126,24 @@
         loop: false
     });
 
-    setInterval(function(){
-        moveCameraTween.to({
-            x: globalGyroPos.targetX,
-            y: globalGyroPos.targetY
-        }, 100);
-        moveCameraTween.start();
-    }, 100);
-
-    moveCameraTween.start();
+//    setInterval(function(){
+//    }, 100);
+//
+//    moveCameraTween.start();
 
     function handleOrientationEvent(event) {
         var x = event.beta ? event.beta : event.y * 90;
         var y = event.gamma ? event.gamma : event.x * 90;
+
+        x = (x < 0) ? 0 : x;
+        y = (y < 0) ? 0 : y;
+
+
+        x = (x > 180) ? 180 : x;
+        y = (y > 180) ? 180 : y;
+
+//        x = ((x / 360) < 0.3) ? x : 360 * 0.3;
+//        y = ((y / 360) < 0.3) ? y : 360 * 0.3;
 
         if (!orientationInitialVector.x || !orientationInitialVector.y)
         {
@@ -150,18 +155,24 @@
             var positionX = orientationInitialVector.x - x;
             var positionY = orientationInitialVector.y - y;
 
-            var phoneAnglePercentageX = ((positionX / 360) < 0.3) ? (positionX / 360) : 0.3;
-            var phoneAnglePercentageY = ((positionY / 360) < 0.3) ? (positionY / 360) : 0.3;
+            var phoneAnglePercentageX = (positionX / 360);
+            var phoneAnglePercentageY = (positionY / 360);
 
 //            camera.rotation.x = phoneAnglePercentageX * (2 * Math.PI) * 0.7;
 //            camera.rotation.y = phoneAnglePercentageY * (2 * Math.PI) * 0.7;
 
-            globalGyroPos.targetX = phoneAnglePercentageX * (2 * Math.PI) * 0.7;
-            globalGyroPos.targetY = phoneAnglePercentageY * (2 * Math.PI) * 0.7;
+            globalGyroPos.targetX = phoneAnglePercentageX * (2 * Math.PI);// * 0.7;
+            globalGyroPos.targetY = phoneAnglePercentageY * (2 * Math.PI);// * 0.7;
         }
 
         orientationInitialVector.targetX = x;
         orientationInitialVector.targetY = y;
+
+        moveCameraTween.to({
+            x: globalGyroPos.targetX,
+            y: globalGyroPos.targetY
+        }, 100);
+        moveCameraTween.start();
     }
 
     // Webkit en Mozilla variant beide registreren.
