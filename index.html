@@ -1,17 +1,188 @@
 <html>
 <head>
     <title>My first Three.js app</title>
-    <style>canvas { width: 100%; height: 100% }</style>
+    <style>body { margin:0px; } canvas { width: 100%; height: 100% }</style>
+    <meta name="viewport" content="minimal-ui, width=device-width, user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 </head>
 <body>
-<script src="node_modules/three/three.min.js"></script>
 <script>
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    module = {};
+</script>
+<script src="node_modules/three/three.min.js"></script>
+<script src="node_modules/tween.js/index.js"></script>
+<script>
 
+    //disable scrolling in safari
+    document.ontouchmove = function(event){
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    //global variables
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
     var renderer = new THREE.WebGLRenderer();
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    document.body.appendChild( renderer.domElement );
+
+    //set up scene
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColorHex("000000");
+    document.body.appendChild(renderer.domElement);
+
+    // material
+//    var material = new THREE.MeshLambertMaterial({
+//        map: THREE.ImageUtils.loadTexture('crate.jpg'),
+//        side: THREE.BackSide
+//    });
+
+    var backgroundTexture = THREE.ImageUtils.loadTexture('crate.jpg');
+    backgroundTexture.wrapT = false;//THREE.RepeatWrapping;
+    backgroundTexture.wrapS = false;
+    backgroundTexture.repeat.set(5, 5);
+
+    var material = new THREE.MeshBasicMaterial({
+        map: backgroundTexture,
+        side: THREE.BackSide,
+        shading: THREE.NoShading,
+    });
+
+    var cube = new THREE.Mesh(
+        new THREE.BoxGeometry(1, 1, 5),
+        material
+    );
+
+    cube.name = 'cube';
+
+    //add new cube to scene
+    scene.add(cube);
+
+    //set up camera position
+    camera.position.z = 3;
+
+    ///
+
+    var position = { x : 0, y: 0 };
+
+    var ball = document.getElementById('ball');
+
+//    function handleOrientationEvent(event) {
+////        var x = event.beta ? event.beta : event.y * 90;
+////        var y = event.gamma ? event.gamma : event.x * 90;
+//
+//        var x = event.changedTouches[0].pageX;
+//        var y = event.changedTouches[0].pageY;
+//
+//        if (!initialX && !initialY)
+//        {
+//            initialX = x;
+//            initialY = y;
+//        }
+//        else
+//        {
+//            var positionX = initialX - x;
+//            var positionY = initialY - y;
+//
+////            var phoneAnglePercentageX = (positionX / 360) * (2 * Math.PI);
+////            var phoneAnglePercentageY = (positionY / 360) * (2 * Math.PI);
+//
+//            var maxY = window.innerWidth;
+//            var maxX = window.innerHeight;
+//
+//            var phoneAnglePercentageX = (positionX / maxX) * (2 * Math.PI);
+//            var phoneAnglePercentageY = (positionY / maxY) * (2 * Math.PI);
+//
+//            if(positionX == NaN) return;
+//
+//            camera.rotation.y = -phoneAnglePercentageX * 0.3;
+//            camera.rotation.x = -phoneAnglePercentageY * 0.3;
+//
+//            console.log(positionX);
+//            var cube = scene.getObjectByName('cube');
+//        }
+//    }
+
+    var orientationInitialVector = {x: 0, y: 0, targetX: 0, targetY: 0};
+
+    var correctOrientationInitialTween = new TWEEN.Tween(orientationInitialVector, {
+        loop: false
+    });
+//            .easing(TWEEN.Easing.Quintic.InOut);
+
+    setInterval(function(){
+        correctOrientationInitialTween.to({
+            x: orientationInitialVector.targetX,
+            y: orientationInitialVector.targetY
+        }, 1000);
+        correctOrientationInitialTween.start();
+    }, 500);
+
+    correctOrientationInitialTween.start();
+
+    //////
+
+    var globalGyroPos = {x: 0, y: 0, targetX: 0, targetY: 0};
+
+    var moveCameraTween = new TWEEN.Tween(globalGyroPos, {
+        loop: false
+    });
+
+    setInterval(function(){
+        moveCameraTween.to({
+            x: globalGyroPos.targetX,
+            y: globalGyroPos.targetY
+        }, 100);
+        moveCameraTween.start();
+    }, 100);
+
+    moveCameraTween.start();
+
+    function handleOrientationEvent(event) {
+        var x = event.beta ? event.beta : event.y * 90;
+        var y = event.gamma ? event.gamma : event.x * 90;
+
+        if (!orientationInitialVector.x || !orientationInitialVector.y)
+        {
+            orientationInitialVector.x = x;
+            orientationInitialVector.y = y;
+        }
+        else
+        {
+            var positionX = orientationInitialVector.x - x;
+            var positionY = orientationInitialVector.y - y;
+
+            var phoneAnglePercentageX = ((positionX / 360) < 0.3) ? (positionX / 360) : 0.3;
+            var phoneAnglePercentageY = ((positionY / 360) < 0.3) ? (positionY / 360) : 0.3;
+
+//            camera.rotation.x = phoneAnglePercentageX * (2 * Math.PI) * 0.7;
+//            camera.rotation.y = phoneAnglePercentageY * (2 * Math.PI) * 0.7;
+
+            globalGyroPos.targetX = phoneAnglePercentageX * (2 * Math.PI) * 0.7;
+            globalGyroPos.targetY = phoneAnglePercentageY * (2 * Math.PI) * 0.7;
+        }
+
+        orientationInitialVector.targetX = x;
+        orientationInitialVector.targetY = y;
+    }
+
+    // Webkit en Mozilla variant beide registreren.
+    window.addEventListener("deviceorientation", handleOrientationEvent, true);
+//     window.addEventListener("touchmove", handleOrientationEvent, true);
+
+
+
+
+    //rendering function
+    var render = function (time) {
+        requestAnimationFrame(render);
+        TWEEN.update(time);
+
+        camera.rotation.y = globalGyroPos.y;
+        camera.rotation.x = globalGyroPos.x;
+
+        renderer.render(scene, camera);
+    };
+
+    render();
 </script>
 </body>
 </html>
