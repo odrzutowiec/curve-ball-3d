@@ -1,15 +1,19 @@
 {
-  "name": "nodejstest",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.html",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "three": "latest",
-    "tween.js": "latest"
-  }
+	"name": "nodejstest",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.html",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"requirejs": "latest",
+		"three": "latest",
+		"tween.js": "latest"
+	},
+	"repository": {
+		"type": "git"
+	}
 }
