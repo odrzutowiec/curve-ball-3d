@@ -2,39 +2,9 @@ define([
 	'GameCamera',
 	'GameRenderer',
 	'GameScene',
-	'GameBackground',
-	'tweenjs'
+	'GameBackground'
 ], function(GameCamera, GameRenderer, GameScene, GameBackground) {
 	"use strict";
-
-//	var p1 = {x:0};
-//
-//	var t1 = new TWEEN.Tween(p1)
-//		.to({x: 1000}, 300)
-//		.onUpdate(function() {
-//			console.log(p1);
-//		})
-//		.start();
-//
-//	function animation() {
-//		requestAnimationFrame(animation);
-//		TWEEN.update();
-//	}
-//
-//	animation();
-
-//	var orientationTween = new TWEEN.Tween({x:0,y:0});
-//
-//	orientationTween.to({
-//		x: 100,
-//		y: 100
-//	}, 10000);
-//
-//	orientationTween.onUpdate(function(){
-//		alert('asd');
-//	});
-//
-//	orientationTween.start();
 
 	/**
 	 * screen lock
@@ -52,6 +22,9 @@ define([
 
 	scene.add(background.mesh);
 
+
+
+//
 //
 //	///
 //

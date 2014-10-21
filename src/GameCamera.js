@@ -14,15 +14,35 @@ define([
 			75, window.innerWidth / window.innerHeight, 0.1, 10);
 
 		this.orientation = {
-			x: 1,
-			y: 1,
+			x: 0,
+			y: 0,
+			targetX: 0,
+			targetY: 0
+		};
+
+		this.correction = {
+			x: 0,
+			y: 0,
 			targetX: 0,
 			targetY: 0
 		};
 
 		this.orientationTween = new TWEEN.Tween(this.orientation, {
-			repeat: 100
+			repeat: true
 		});
+
+		this.correctionTween = new TWEEN.Tween(this.correction, {
+			repeat: true
+		});
+
+		setInterval(function(){
+			scope.correctionTween.stop();
+			scope.correctionTween.to({
+				x: scope.correction.targetX,
+				y: scope.correction.targetY
+			}, 500);
+			scope.correctionTween.start();
+		}, 100);
 
 		this.init();
 
@@ -78,20 +98,23 @@ define([
 //		x = ((x / 360) < 0.3) ? x : 360 * 0.3;
 //		y = ((y / 360) < 0.3) ? y : 360 * 0.3;
 
-		if (!this.orientation.x || !this.orientation.y) {
-			this.orientation.x = x;
-			this.orientation.y = y;
+		if (!this.correction.x || !this.correction.y) {
+			this.correction.x = x;
+			this.correction.y = y;
 		}
 		else {
-			var positionX = this.orientation.x - x;
-			var positionY = this.orientation.y - y;
+			var positionX = this.correction.x - x;
+			var positionY = this.correction.y - y;
 
-			var phoneAnglePercentageX = (positionX / 360);
-			var phoneAnglePercentageY = (positionY / 360);
+			var phoneAnglePercentageX = (positionX / 90);
+			var phoneAnglePercentageY = (positionY / 90);
 
-			this.orientation.targetX = phoneAnglePercentageX * (2 * Math.PI);
-			this.orientation.targetY = phoneAnglePercentageY * (2 * Math.PI);
+			this.orientation.targetX = phoneAnglePercentageX * (2 * Math.PI) * 0.3;
+			this.orientation.targetY = phoneAnglePercentageY * (2 * Math.PI) * 0.3;
 		}
+
+		this.correction.targetX = x;
+		this.correction.targetY = y;
 
 		this.orientationTween.stop();
 		this.orientationTween.to({
