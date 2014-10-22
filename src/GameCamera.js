@@ -1,7 +1,8 @@
 define([
+	'ScreenLog',
 	'threejs',
 	'tweenjs'
-], function() {
+], function(ScreenLog) {
 	"use strict";
 
 	/**
@@ -86,8 +87,9 @@ define([
 	 * @param e
 	 */
 	GameCamera.prototype.orientationChanged = function(e) {
-		var x = e.beta ? e.beta : e.y * 90;
-		var y = e.gamma ? e.gamma : e.x * 90;
+		var z = e.alpha ? e.alpha : e.z * 90;
+		var x = e.beta ? e.beta : e.x * 90;
+		var y = e.gamma ? e.gamma : e.y * 90;
 
 //		x = (x < 0) ? 0 : x;
 //		y = (y < 0) ? 0 : y;
@@ -97,6 +99,12 @@ define([
 //
 //		x = ((x / 360) < 0.3) ? x : 360 * 0.3;
 //		y = ((y / 360) < 0.3) ? y : 360 * 0.3;
+
+		var log = [
+			'in x: ' + x,
+			'in y: ' + y,
+			'in z: ' + z,
+		];
 
 		if (!this.correction.x || !this.correction.y) {
 			this.correction.x = x;
@@ -108,6 +116,9 @@ define([
 
 			var phoneAnglePercentageX = (positionX / 90);
 			var phoneAnglePercentageY = (positionY / 90);
+
+			log.push('%x: ' + phoneAnglePercentageX);
+			log.push('%y: ' + phoneAnglePercentageY);
 
 			this.orientation.targetX = phoneAnglePercentageX * (2 * Math.PI) * 0.3;
 			this.orientation.targetY = phoneAnglePercentageY * (2 * Math.PI) * 0.3;
@@ -122,6 +133,8 @@ define([
 			y: this.orientation.targetY
 		}, 100);
 		this.orientationTween.start();
+
+		ScreenLog.log(log);
 	};
 
 	return GameCamera;

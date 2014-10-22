@@ -16,7 +16,8 @@ define(function() {
 			GameCamera: config.scriptPath + '/GameCamera',
 			GameRenderer: config.scriptPath + '/GameRenderer',
 			GameScene: config.scriptPath + '/GameScene',
-			GameBackground: config.scriptPath + '/GameBackground'
+			GameBackground: config.scriptPath + '/GameBackground',
+			ScreenLog: config.scriptPath + '/ScreenLog'
 		}
 	});
 
