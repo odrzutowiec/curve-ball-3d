@@ -115,14 +115,16 @@ define([
 			positionX = x;
 			positionY = y;
 
-			var phoneAnglePercentageX = Math.round((positionX / 360) * 100, 2);
-			var phoneAnglePercentageY = Math.round((positionY / 360) * 100, 2);
+			var phoneAnglePercentageX = Math.round(((positionX + 90) / 180) * 100, 2);
+			var phoneAnglePercentageY = Math.round(((positionY + 180) / 360) * 100, 2);
 
 			log.push('x: ' + phoneAnglePercentageX + '%');
 			log.push('y: ' + phoneAnglePercentageY + '%');
 
-			this.orientation.targetX = phoneAnglePercentageX/100 * 360 / (180/Math.PI);
-			this.orientation.targetY = phoneAnglePercentageY/100 * 360 / (180/Math.PI);
+
+
+			this.orientation.targetX = 2 * Math.PI * phoneAnglePercentageX / 100;
+			this.orientation.targetY = 2 * Math.PI * phoneAnglePercentageY / 100;
 
 
 			log.push('x ang: ' + phoneAnglePercentageX/100 * 360 + '%');
