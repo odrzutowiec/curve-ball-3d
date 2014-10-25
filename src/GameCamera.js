@@ -79,69 +79,59 @@ define([
 	 * @param e
 	 */
 	GameCamera.prototype.updateFrame = function(e) {
-		this.camera.rotation.y = this.orientation.y;
-		this.camera.rotation.x = this.orientation.x;
+
+		this.camera.rotation.x = Math.radians(this.orientation.targetX);
+//		this.camera.rotation.y = Math.radians(this.orientation.y);
+
+		ScreenLog.display();
 	};
 
 	/**
 	 * @param e
 	 */
 	GameCamera.prototype.orientationChanged = function(e) {
+		var z = (e.alpha ? e.alpha : 0);
 		var x = (e.beta ? e.beta : 0);
 		var y = (e.gamma ? e.gamma : 0);
 
-//		x = (x < 0) ? 0 : x;
-//		y = (y < 0) ? 0 : y;
-//
-//		x = (x > 180) ? 180 : x;
-//		y = (y > 180) ? 180 : y;
-//
-//		x = ((x / 360) < 0.3) ? x : 360 * 0.3;
-//		y = ((y / 360) < 0.3) ? y : 360 * 0.3;
-
-		var log = [
-			'in x: ' + x,
-			'in y: ' + y,
-		];
 
 //		if (!this.correction.x || !this.correction.y) {
 //			this.correction.x = 0;
 //			this.correction.y = 0;
 //		}
 //		else {
-			var positionX = this.correction.x - x;
-			var positionY = this.correction.y - y;
-
-			positionX = x;
-			positionY = y;
-
-			var phoneAnglePercentageX = Math.round(((positionX + 90) / 180) * 100, 2);
-			var phoneAnglePercentageY = Math.round(((positionY + 180) / 360) * 100, 2);
-
-			log.push('x: ' + phoneAnglePercentageX + '%');
-			log.push('y: ' + phoneAnglePercentageY + '%');
-
-
-
-			this.orientation.targetX = 2 * Math.PI * phoneAnglePercentageX / 100;
-			this.orientation.targetY = 2 * Math.PI * phoneAnglePercentageY / 100;
+//			var positionX = this.correction.x - x;
+//			var positionY = this.correction.y - y;
+//
+//			positionX = x;
+//			positionY = y;
+//
+//			var phoneAnglePercentageX = Math.round(((positionX + 90) / 180) * 100, 2);
+//			var phoneAnglePercentageY = Math.round(((positionY + 180) / 360) * 100, 2);
+//
+//			this.orientation.targetX = 2 * Math.PI * phoneAnglePercentageX / 100;
+//			this.orientation.targetY = 2 * Math.PI * phoneAnglePercentageY / 100;
 
 
-			log.push('x ang: ' + phoneAnglePercentageX/100 * 360 + '%');
-			log.push('y ang: ' + phoneAnglePercentageY/100 * 360 + '%');
+//			log.push('x ang: ' + phoneAnglePercentageX+ '%');
+//			log.push('y ang: ' + phoneAnglePercentageY+ '%');
 //		}
 
-		this.correction.targetX = x;
-		this.correction.targetY = y;
+		this.orientation.targetX = x;
+		this.orientation.targetY = y;
 
-//		this.orientationTween.stop();
-//		this.orientationTween.to({
-//			x: this.orientation.targetX,
-//			y: this.orientation.targetY
-//		}, 100);
-//		this.orientationTween.start();
+		ScreenLog.log('orient x', this.orientation.x);
+		ScreenLog.log('orient y', this.orientation.y);
 
-		ScreenLog.log(log);
+		ScreenLog.log('orient targ x', this.orientation.targetX);
+		ScreenLog.log('orient targ y', this.orientation.targetY);
+
+		this.orientationTween.stop();
+		this.orientationTween.to({
+			x: this.orientation.targetX,
+			y: this.orientation.targetY
+		}, 100);
+		this.orientationTween.start();
 	};
 
 	return GameCamera;
