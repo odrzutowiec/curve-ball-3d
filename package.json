@@ -11,7 +11,7 @@
 	"dependencies": {
 		"requirejs": "latest",
 		"three": "latest",
-		"tween.js": "latest"
+		"gsap": "latest"
 	},
 	"repository": {
 		"type": "git"

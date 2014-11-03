@@ -1,7 +1,7 @@
 define([
-	'threejs',
-	'tweenjs'
-], function(scene, camera) {
+	'ScreenLog',
+	'threejs'
+], function(ScreenLog, scene, camera) {
 	"use strict";
 
 	/**
@@ -49,7 +49,8 @@ define([
 		renderEvent.deltaTime = deltaTime;
 		window.dispatchEvent(renderEvent);
 
-		TWEEN.update(renderTimestamp);
+		ScreenLog.display();
+//		TWEEN.update(renderTimestamp);
 		this.renderer.render(this.scene, this.camera);
 		this.previousRenderTimestamp = renderTimestamp;
 	}

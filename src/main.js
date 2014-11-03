@@ -1,9 +1,11 @@
 define([
+	'ScreenLog',
 	'GameCamera',
 	'GameRenderer',
 	'GameScene',
-	'GameBackground'
-], function(GameCamera, GameRenderer, GameScene, GameBackground) {
+	'GameBackground',
+	'gsap'
+], function(ScreenLog, GameCamera, GameRenderer, GameScene, GameBackground) {
 	"use strict";
 
 	/**
@@ -21,9 +23,6 @@ define([
 	var background = new GameBackground();
 
 	scene.add(background.mesh);
-
-
-
 //
 //
 //	///

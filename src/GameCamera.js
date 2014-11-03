@@ -1,7 +1,6 @@
 define([
 	'ScreenLog',
-	'threejs',
-	'tweenjs'
+	'threejs'
 ], function(ScreenLog) {
 	"use strict";
 
@@ -28,22 +27,20 @@ define([
 			targetY: 0
 		};
 
-		this.orientationTween = new TWEEN.Tween(this.orientation, {
-			repeat: true
-		});
+//		this.orientationTween = new TWEEN.Tween(this.orientation, {
+//			repeat: true
+//		});
+//
+//		this.correctionTween = new TWEEN.Tween(this.correction, {
+//			repeat: true
+//		});
 
-		this.correctionTween = new TWEEN.Tween(this.correction, {
-			repeat: true
-		});
-
-//		setInterval(function(){
-//			scope.correctionTween.stop();
-//			scope.correctionTween.to({
-//				x: scope.correction.targetX,
-//				y: scope.correction.targetY
-//			}, 500);
-//			scope.correctionTween.start();
-//		}, 100);
+		setInterval(function(){
+			TweenMax.to(scope.correction, 0.1, {
+				x: scope.correction.targetX,
+				y: scope.correction.targetY
+			});
+		}, 100);
 
 		this.init();
 
@@ -81,9 +78,7 @@ define([
 	GameCamera.prototype.updateFrame = function(e) {
 
 		this.camera.rotation.x = Math.radians(this.orientation.targetX);
-//		this.camera.rotation.y = Math.radians(this.orientation.y);
-
-		ScreenLog.display();
+		this.camera.rotation.y = Math.radians(this.orientation.targetY);
 	};
 
 	/**
@@ -125,13 +120,19 @@ define([
 
 		ScreenLog.log('orient targ x', this.orientation.targetX);
 		ScreenLog.log('orient targ y', this.orientation.targetY);
+//
+//		this.orientationTween.stop();
+//		this.orientationTween.to({
+//			x: this.orientation.targetX,
+//			y: this.orientation.targetY
+//		}, 100);
+//		this.orientationTween.start();
 
-		this.orientationTween.stop();
-		this.orientationTween.to({
+
+		TweenMax.to(this.orientation, 0.1, {
 			x: this.orientation.targetX,
 			y: this.orientation.targetY
-		}, 100);
-		this.orientationTween.start();
+		});
 	};
 
 	return GameCamera;
