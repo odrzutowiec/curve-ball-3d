@@ -9,7 +9,6 @@ define([
 	'GameRenderer',
 	'GameScene',
 	'GameBackground',
-	'gsap',
 	'stats'
 ], function(ScreenLog, GameCamera, GameRenderer, GameScene, GameBackground) {
 	"use strict";
@@ -36,9 +35,11 @@ define([
 	var scene = new GameScene();
 	var camera = new GameCamera();
 	var renderer = new GameRenderer(scene.scene, camera.camera);
-	var background = new GameBackground();
+//	var background = new Array;// new GameBackground();
 
-	scene.add(background.mesh);
+	for(var i = 0; i < 9; i++) {
+		scene.add((new GameBackground()).mesh);
+	}
 //
 //
 //	///
