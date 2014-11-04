@@ -1,6 +1,7 @@
 define([
 	'ScreenLog',
-	'threejs'
+	'gsap',
+	'threejs',
 ], function(ScreenLog) {
 	"use strict";
 
@@ -27,20 +28,12 @@ define([
 			targetY: 0
 		};
 
-//		this.orientationTween = new TWEEN.Tween(this.orientation, {
-//			repeat: true
-//		});
-//
-//		this.correctionTween = new TWEEN.Tween(this.correction, {
-//			repeat: true
-//		});
-
 		setInterval(function(){
-			TweenMax.to(scope.correction, 0.1, {
-				x: scope.correction.targetX,
-				y: scope.correction.targetY
+			TweenMax.to(scope.orientation, 0.50, {
+				x: scope.orientation.targetX,
+				y: scope.orientation.targetY
 			});
-		}, 100);
+		}, 50);
 
 		this.init();
 
@@ -76,9 +69,8 @@ define([
 	 * @param e
 	 */
 	GameCamera.prototype.updateFrame = function(e) {
-
-		this.camera.rotation.x = Math.radians(this.orientation.targetX);
-		this.camera.rotation.y = Math.radians(this.orientation.targetY);
+		this.camera.rotation.x = Math.radians(this.orientation.x);
+		this.camera.rotation.y = Math.radians(this.orientation.y);
 	};
 
 	/**
@@ -128,13 +120,13 @@ define([
 //		}, 100);
 //		this.orientationTween.start();
 
-		this.orientation.x = this.orientation.targetX;
-		this.orientation.y = this.orientation.targetY;
+//		this.orientation.x = this.orientation.targetX;
+//		this.orientation.y = this.orientation.targetY;
 
-		TweenMax.to(this.orientation, 0.1, {
-			x: this.orientation.targetX,
-			y: this.orientation.targetY
-		});
+//		TweenMax.to(this.orientation, 1, {
+//			x: this.orientation.targetX,
+//			y: this.orientation.targetY
+//		});
 	};
 
 	return GameCamera;

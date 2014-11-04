@@ -10,7 +10,6 @@ define(function() {
 	requirejs.config({
 		baseUrl: '',
 		paths: {
-//			tweenjs: config.modulesPath + '/tween.js/index',
 			gsap: config.modulesPath + '/gsap/src/minified/TweenMax.min',
 			threejs: config.modulesPath + '/three/three',
 			stats: config.modulesPath + '/stats/build/stats.min',
