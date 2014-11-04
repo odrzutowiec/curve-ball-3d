@@ -128,6 +128,8 @@ define([
 //		}, 100);
 //		this.orientationTween.start();
 
+		this.orientation.x = this.orientation.targetX;
+		this.orientation.y = this.orientation.targetY;
 
 		TweenMax.to(this.orientation, 0.1, {
 			x: this.orientation.targetX,

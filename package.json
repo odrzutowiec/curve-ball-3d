@@ -11,7 +11,8 @@
 	"dependencies": {
 		"requirejs": "latest",
 		"three": "latest",
-		"gsap": "latest"
+		"gsap": "latest",
+		"stats.js": "latest"
 	},
 	"repository": {
 		"type": "git"

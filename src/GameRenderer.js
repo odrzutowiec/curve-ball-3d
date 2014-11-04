@@ -39,20 +39,22 @@ define([
 	GameRenderer.prototype.render = function(renderTimestamp) {
 		var scope = this;
 
+		ScreenLog.display();
+
+		window.stats.begin();
+
 		requestAnimationFrame(function(renderTimestamp){
 			scope.render(renderTimestamp);
 		});
 
-		var deltaTime = renderTimestamp - this.previousRenderTimestamp;
-
 		var renderEvent = new Event('GameRender');
-		renderEvent.deltaTime = deltaTime;
+		renderEvent.deltaTime = renderTimestamp - this.previousRenderTimestamp;;
 		window.dispatchEvent(renderEvent);
 
-		ScreenLog.display();
-//		TWEEN.update(renderTimestamp);
 		this.renderer.render(this.scene, this.camera);
 		this.previousRenderTimestamp = renderTimestamp;
+
+		window.stats.end();
 	}
 
 	return GameRenderer;

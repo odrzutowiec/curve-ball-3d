@@ -13,6 +13,7 @@ define(function() {
 //			tweenjs: config.modulesPath + '/tween.js/index',
 			gsap: config.modulesPath + '/gsap/src/minified/TweenMax.min',
 			threejs: config.modulesPath + '/three/three',
+			stats: config.modulesPath + '/stats/build/stats.min',
 			config: config.scriptPath + '/config',
 			GameCamera: config.scriptPath + '/GameCamera',
 			GameRenderer: config.scriptPath + '/GameRenderer',

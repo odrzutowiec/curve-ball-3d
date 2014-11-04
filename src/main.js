@@ -1,12 +1,25 @@
+/*
+ * stats
+ */
+var stats = null;
+
 define([
 	'ScreenLog',
 	'GameCamera',
 	'GameRenderer',
 	'GameScene',
 	'GameBackground',
-	'gsap'
+	'gsap',
+	'stats'
 ], function(ScreenLog, GameCamera, GameRenderer, GameScene, GameBackground) {
 	"use strict";
+
+	window.stats = new Stats();
+	window.stats.setMode(0);
+	window.stats.domElement.style.position = 'absolute';
+	window.stats.domElement.style.right = '0px';
+	window.stats.domElement.style.top = '0px';
+	document.body.appendChild(window.stats.domElement);
 
 	/**
 	 * screen lock
@@ -17,6 +30,9 @@ define([
 		return false;
 	});
 
+	/*
+	 * game objects
+	 */
 	var scene = new GameScene();
 	var camera = new GameCamera();
 	var renderer = new GameRenderer(scene.scene, camera.camera);
